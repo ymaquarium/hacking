@@ -1,0 +1,80 @@
+0x200 $ gdb -q ./char_array2
+/Users/aquan/.gdbinit:1: Error in sourced command file:
+Ambiguous set command "dis intel": disable-randomization, disassemble-next-line, disassembler-options, disassembly-flavor...
+Reading symbols from ./char_array2...Reading symbols from /Users/mizunoyuta/git/hacking/0x200/char_array2.dSYM/Contents/Resources/DWARF/char_array2...done.
+done.
+(gdb) list
+1	#include <stdio.h>
+2	#include <string.h>
+3
+4	int main(){
+5	  char str_a[20];
+6
+7	  strcpy(str_a, "Hello, world!");
+8	  printf("%s\n", str_a);
+9	}
+(gdb) break 6
+Breakpoint 1 at 0x100000f18: file char_array2.c, line 6.
+(gdb) break strcpy
+Function "strcpy" not defined.
+Make breakpoint pending on future shared library load? (y or [n]) y
+Breakpoint 2 (strcpy) pending.
+(gdb) break 8
+Breakpoint 3 at 0x100000f28: file char_array2.c, line 8.
+(gdb) run
+Starting program: /Users/aquan/git/hacking/0x200/char_array2
+[New Thread 0x2503 of process 3127]
+warning: unhandled dyld version (15)
+
+Thread 2 hit Breakpoint 1, main () at char_array2.c:7
+7	  strcpy(str_a, "Hello, world!");
+(gdb) i r rip
+rip            0x100000f18	0x100000f18 <main+40>
+(gdb) x/5i $rip
+=> 0x100000f18 <main+40>:	callq  0x100000f60
+   0x100000f1d <main+45>:	lea    0x84(%rip),%rdi        # 0x100000fa8
+   0x100000f24 <main+52>:	lea    -0x20(%rbp),%rsi
+   0x100000f28 <main+56>:	mov    %rax,-0x28(%rbp)
+   0x100000f2c <main+60>:	mov    $0x0,%al
+(gdb) continue
+Continuing.
+
+Thread 2 hit Breakpoint 3, main () at char_array2.c:8
+8	  printf("%s\n", str_a);
+(gdb) i r rip
+rip            0x100000f28	0x100000f28 <main+56>
+(gdb) x/5i $rip
+=> 0x100000f28 <main+56>:	mov    %rax,-0x28(%rbp)
+   0x100000f2c <main+60>:	mov    $0x0,%al
+   0x100000f2e <main+62>:	callq  0x100000f66
+   0x100000f33 <main+67>:	mov    0xc6(%rip),%rcx        # 0x100001000
+   0x100000f3a <main+74>:	mov    (%rcx),%rcx
+(gdb) continue
+Continuing.
+Hello, world!
+[Inferior 1 (process 3127) exited normally]
+(gdb) i r rip
+The program has no registers now.
+
+(gdb) run
+Starting program: /Users/aquan/git/hacking/0x200/char_array2 
+[New Thread 0x1803 of process 3133]
+warning: unhandled dyld version (15)
+
+Thread 2 hit Breakpoint 1, main () at char_array2.c:7
+7	  strcpy(str_a, "Hello, world!");
+(gdb) bt
+#0  main () at char_array2.c:7
+(gdb) cont
+Continuing.
+
+Thread 2 hit Breakpoint 3, main () at char_array2.c:8
+8	  printf("%s\n", str_a);
+(gdb) bt
+#0  main () at char_array2.c:8
+(gdb) cont
+Continuing.
+Hello, world!
+[Inferior 1 (process 3133) exited normally]
+(gdb) bt
+No stack.
