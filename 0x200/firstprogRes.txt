@@ -1,4 +1,4 @@
-$ gcc firstprog.c 
+$ gcc firstprog.c
 $ gobjdump -D a.out | grep -A20 main.:
 0000000100000f40 <_main>:
    100000f40:	55                   	push   %rbp
@@ -19,4 +19,4 @@ $ gobjdump -D a.out | grep -A20 main.:
    100000f7f:	31 c0                	xor    %eax,%eax
    100000f81:	48 83 c4 10          	add    $0x10,%rsp
    100000f85:	5d                   	pop    %rbp
-   100000f86:	c3                   	retq   
+   100000f86:	c3                   	retq
