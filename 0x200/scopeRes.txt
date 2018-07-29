@@ -1,0 +1,90 @@
+0x200 $ gcc -o scope scope.c
+0x200 $ ./scope
+[main内] i = 3
+	[func1内] i = 5
+		[func2内] i = 7
+			[func3内] i = 11
+		[func2に戻ってきました] i = 7
+	[func1に戻ってきました] i = 5
+[mainに戻ってきました] i = 3
+
+0x200 $ gcc -o scope2 scope2.c
+0x200 $ ./scope2
+[main内] i = 3, j = 42
+	[func1内] i = 5, j = 42
+		[func2内] i = 7, j = 42
+		[func2内]jに1337を代入します。
+			[func3内] i = 11, j = 999
+		[func2に戻ってきました] i = 7, j = 1337
+	[func1に戻ってきました] i = 5, j = 1337
+[mainに戻ってきました] i = 3, j = 1337
+
+0x200 $ gcc -o scope3 scope3.c
+0x200 $ ./scope3
+[main内] i @ 0xedbc0aec = 3
+[main内] j @ 0x02040018 = 42
+	[func1内] i @ 0xedbc0abc = 5
+	[func1内] j @ 0x02040018 = 42
+		[func2内] i @ 0xedbc0a8c = 7
+		[func2内] j @ 0x02040018 = 42
+		[func2内]jに1337を代入します。
+			[func3内] i @ 0xedbc0a5c = 11
+			[func3内] j @ 0xedbc0a58 = 999
+		[func2に戻ってきました] i @ 0xedbc0a8c = 7
+		[func2に戻ってきました] j @ 0x02040018 = 1337
+	[func1に戻ってきました] i @ 0xedbc0abc = 5
+	[func1に戻ってきました] j @ 0x02040018 = 1337
+[mainに戻ってきました] i @ 0xedbc0aec = 3
+[mainに戻ってきました] j @ 0x02040018 = 1337
+
+0x200 $ gdb -q ./scope3
+Reading symbols from ./scope3...Reading symbols from /Users/mizunoyuta/git/hacking/0x200/scope3.dSYM/Contents/Resources/DWARF/scope3...done.
+done.
+(gdb) list 1
+1	#include <stdio.h>
+2
+3	int j = 42;
+4
+5	void func3(){
+6	  int i = 11, j = 999;
+7	  printf("\t\t\t[func3内] i @ 0x%08x = %d\n", &i, i);
+8	  printf("\t\t\t[func3内] j @ 0x%08x = %d\n", &j, j);
+9	}
+10
+(gdb) break 7
+Breakpoint 1 at 0x100000b51: file scope3.c, line 7.
+(gdb) run
+Starting program: /Users/aquan/git/hacking/0x200/scope3 
+[New Thread 0x1a03 of process 4600]
+warning: unhandled dyld version (15)
+[main内] i @ 0xefbffa4c = 3
+[main内] j @ 0x00001018 = 42
+	[func1内] i @ 0xefbffa1c = 5
+	[func1内] j @ 0x00001018 = 42
+		[func2内] i @ 0xefbff9ec = 7
+		[func2内] j @ 0x00001018 = 42
+		[func2内]jに1337を代入します。
+
+Thread 2 hit Breakpoint 1, func3 () at scope3.c:7
+7	  printf("\t\t\t[func3内] i @ 0x%08x = %d\n", &i, i);
+(gdb) bt
+#0  func3 () at scope3.c:7
+#1  0x0000000100000be5 in func2 () at scope3.c:17
+#2  0x0000000100000c7a in func1 () at scope3.c:26
+#3  0x0000000100000d0a in main () at scope3.c:35
+(gdb) bt full
+#0  func3 () at scope3.c:7
+        i = 11
+        j = 999
+#1  0x0000000100000be5 in func2 () at scope3.c:17
+        i = 7
+#2  0x0000000100000c7a in func1 () at scope3.c:26
+        i = 5
+#3  0x0000000100000d0a in main () at scope3.c:35
+        i = 3
+(gdb) quit
+A debugging session is active.
+
+	Inferior 1 [process 4600] will be killed.
+
+Quit anyway? (y or n) y
