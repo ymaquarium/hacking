@@ -1,0 +1,19 @@
+0x200 $ gcc -o fmt_strings fmt_strings.c
+0x200 $ ./fmt_strings
+[A] d -73, x ffffffb7, 符号なしd 4294967223
+[B] d -31337, x ffff8597, 符号なしd 4294935959
+[Bのフィールド幅指定] 3: '-31337', 10:'    -31337', '-0031337'
+[文字列] sample アドレス ea582ac0
+変数Aのアドレス:ea582abc
+
+0x200 $ gcc -o input input.c
+0x200 $ ./input
+何度繰り返しますか？ 8
+  0 - Hello, world!
+  1 - Hello, world!
+  2 - Hello, world!
+  3 - Hello, world!
+  4 - Hello, world!
+  5 - Hello, world!
+  6 - Hello, world!
+  7 - Hello, world!

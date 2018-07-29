@@ -66,7 +66,7 @@ done.
 (gdb) break 8
 Breakpoint 1 at 0x100000fb5: file addressof.c, line 8.
 (gdb) run
-Starting program: /Users/aquan/git/hacking/0x200/address 
+Starting program: /Users/aquan/git/hacking/0x200/address
 [New Thread 0x1903 of process 3499]
 warning: unhandled dyld version (15)
 
@@ -88,3 +88,12 @@ A debugging session is active.
 	Inferior 1 [process 3499] will be killed.
 
 Quit anyway? (y or n) y
+
+0x200 $ gcc -o address2 addressof2.c
+0x200 $ ./address2
+int_ptr = 0xebdaeadc
+&int_ptr = 0xebdaead0
+*int_ptr = 0x00000005
+
+int_varの格納場所は0xebdaeadc その内容は5
+int_ptrの格納場所は0xebdaead0 その内容は0xebdaeadc 指している内容は5

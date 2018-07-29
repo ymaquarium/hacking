@@ -1,0 +1,39 @@
+0x200 $ gcc -o typecasting typecasting.c
+0x200 $ ./typecasting
+[整数]        a = 13		 b = 5
+[浮動小数点数] c = 2.000000	 d = 2.600000
+
+0x200 $ gcc -o ptr_type pointer_types.c
+0x200 $ ./ptr_type
+[整数へのポインタ]は0x7ffeedb7fac0を指しており、その内容は1です
+[整数へのポインタ]は0x7ffeedb7fac4を指しており、その内容は2です
+[整数へのポインタ]は0x7ffeedb7fac8を指しており、その内容は3です
+[整数へのポインタ]は0x7ffeedb7faccを指しており、その内容は4です
+[整数へのポインタ]は0x7ffeedb7fad0を指しており、その内容は5です
+[文字へのポインタ]は0x7ffeedb7fab3を指しており、その内容はaです
+[文字へのポインタ]は0x7ffeedb7fab4を指しており、その内容はbです
+[文字へのポインタ]は0x7ffeedb7fab5を指しており、その内容はcです
+[文字へのポインタ]は0x7ffeedb7fab6を指しており、その内容はdです
+[文字へのポインタ]は0x7ffeedb7fab7を指しており、その内容はeです
+
+0x200 $ gcc -o ptr_type2 pointer_types2.c
+pointer_types2.c:14:16: warning: incompatible pointer types assigning to 'char *'
+      from 'int [5]' [-Wincompatible-pointer-types]
+  char_pointer = int_array;
+               ^ ~~~~~~~~~
+pointer_types2.c:15:15: warning: incompatible pointer types assigning to 'int *'
+      from 'char [5]' [-Wincompatible-pointer-types]
+  int_pointer = char_array; //入れ替えた
+              ^ ~~~~~~~~~~
+2 warnings generated.
+0x200 $ ./ptr_type2
+[整数へのポインタ]は0x7ffeee1b8ab3を指しており、その内容はaです
+[整数へのポインタ]は0x7ffeee1b8ab7を指しており、その内容はeです
+[整数へのポインタ]は0x7ffeee1b8abbを指しており、その内容はです
+[整数へのポインタ]は0x7ffeee1b8abfを指しており、その内容はです
+[整数へのポインタ]は0x7ffeee1b8ac3を指しており、その内容はです
+[文字へのポインタ]は0x7ffeee1b8ac0を指しており、その内容は1です
+[文字へのポインタ]は0x7ffeee1b8ac1を指しており、その内容は0です
+[文字へのポインタ]は0x7ffeee1b8ac2を指しており、その内容は0です
+[文字へのポインタ]は0x7ffeee1b8ac3を指しており、その内容は0です
+[文字へのポインタ]は0x7ffeee1b8ac4を指しており、その内容は2です
