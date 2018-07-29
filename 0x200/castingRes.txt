@@ -37,3 +37,29 @@ pointer_types2.c:15:15: warning: incompatible pointer types assigning to 'int *'
 [文字へのポインタ]は0x7ffeee1b8ac2を指しており、その内容は0です
 [文字へのポインタ]は0x7ffeee1b8ac3を指しており、その内容は0です
 [文字へのポインタ]は0x7ffeee1b8ac4を指しており、その内容は2です
+
+0x200 $ gcc -o ptr_type3 pointer_types3.c
+0x200 $ ./ptr_type3
+[整数へのポインタ]は0x7ffeebce6ab3を指しており、その内容はaです
+[整数へのポインタ]は0x7ffeebce6ab4を指しており、その内容はbです
+[整数へのポインタ]は0x7ffeebce6ab5を指しており、その内容はcです
+[整数へのポインタ]は0x7ffeebce6ab6を指しており、その内容はdです
+[整数へのポインタ]は0x7ffeebce6ab7を指しており、その内容はeです
+[文字へのポインタ]は0x7ffeebce6ac0を指しており、その内容は1です
+[文字へのポインタ]は0x7ffeebce6ac4を指しており、その内容は2です
+[文字へのポインタ]は0x7ffeebce6ac8を指しており、その内容は3です
+[文字へのポインタ]は0x7ffeebce6accを指しており、その内容は4です
+[文字へのポインタ]は0x7ffeebce6ad0を指しており、その内容は5です
+
+0x200 $ gcc -o ptr_type4 pointer_types4.c
+0x200 $ ./ptr_type4
+[整数へのポインタ]は0x7ffeeac5bab3を指しており、その内容はaです
+[整数へのポインタ]は0x7ffeeac5bab4を指しており、その内容はbです
+[整数へのポインタ]は0x7ffeeac5bab5を指しており、その内容はcです
+[整数へのポインタ]は0x7ffeeac5bab6を指しており、その内容はdです
+[整数へのポインタ]は0x7ffeeac5bab7を指しており、その内容はeです
+[文字へのポインタ]は0x7ffeeac5bac0を指しており、その内容は1です
+[文字へのポインタ]は0x7ffeeac5bac4を指しており、その内容は2です
+[文字へのポインタ]は0x7ffeeac5bac8を指しており、その内容は3です
+[文字へのポインタ]は0x7ffeeac5baccを指しており、その内容は4です
+[文字へのポインタ]は0x7ffeeac5bad0を指しており、その内容は5です
