@@ -1,0 +1,33 @@
+0x200 $ gcc -o cmd commandline.c
+0x200 $ ./cmd
+1個のコマンドライン引数が与えられました:
+引数#0: ./cmd
+0x200 $ ./cmd this is a test
+5個のコマンドライン引数が与えられました:
+引数#0: ./cmd
+引数#1: this
+引数#2: is
+引数#3: a
+引数#4: test
+0x200 $ ./cmd I am very sleepy now
+6個のコマンドライン引数が与えられました:
+引数#0: ./cmd
+引数#1: I
+引数#2: am
+引数#3: very
+引数#4: sleepy
+引数#5: now
+
+0x200 $ gcc -o cvt convert.c
+0x200 $ ./cvt 'Hello, world!' 3
+3回繰り返します。
+  0 - Hello, world!
+  1 - Hello, world!
+  2 - Hello, world!
+0x200 $ ./cvt 'Hello, world!'
+使用方法: ./cvt<メッセージ><繰り返し回数>
+
+
+0x200 $ gcc -o cvt2 convert2.c
+0x200 $ ./cvt2 test
+Segmentation fault: 11
