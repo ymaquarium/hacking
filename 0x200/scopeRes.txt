@@ -54,7 +54,7 @@ done.
 (gdb) break 7
 Breakpoint 1 at 0x100000b51: file scope3.c, line 7.
 (gdb) run
-Starting program: /Users/aquan/git/hacking/0x200/scope3 
+Starting program: /Users/aquan/git/hacking/0x200/scope3
 [New Thread 0x1a03 of process 4600]
 warning: unhandled dyld version (15)
 [main内] i @ 0xefbffa4c = 3
@@ -88,3 +88,39 @@ A debugging session is active.
 	Inferior 1 [process 4600] will be killed.
 
 Quit anyway? (y or n) y
+
+0x200 $ gcc -o static static.c
+0x200 $ ./static
+[main内] static_var = 1337
+	[function内] var = 5
+	[function内] static_var = 5
+[main内] static_var = 1337
+	[function内] var = 5
+	[function内] static_var = 6
+[main内] static_var = 1337
+	[function内] var = 5
+	[function内] static_var = 7
+[main内] static_var = 1337
+	[function内] var = 5
+	[function内] static_var = 8
+[main内] static_var = 1337
+	[function内] var = 5
+	[function内] static_var = 9
+
+0x200 $ gcc -o static2 static2.c
+0x200 $ ./static2
+[main内] static_var @ 0x10a7b001c = 1337
+	[function内] var @ 0x7ffee5450abc = 5
+	[function内] static_var @ 0x10a7b0018 = 5
+[main内] static_var @ 0x10a7b001c = 1337
+	[function内] var @ 0x7ffee5450abc = 5
+	[function内] static_var @ 0x10a7b0018 = 6
+[main内] static_var @ 0x10a7b001c = 1337
+	[function内] var @ 0x7ffee5450abc = 5
+	[function内] static_var @ 0x10a7b0018 = 7
+[main内] static_var @ 0x10a7b001c = 1337
+	[function内] var @ 0x7ffee5450abc = 5
+	[function内] static_var @ 0x10a7b0018 = 8
+[main内] static_var @ 0x10a7b001c = 1337
+	[function内] var @ 0x7ffee5450abc = 5
+	[function内] static_var @ 0x10a7b0018 = 9
