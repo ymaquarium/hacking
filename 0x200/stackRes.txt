@@ -1,0 +1,94 @@
+0x200 $ gcc -g stack_example.c
+0x200 $ gdb -q ./a.out
+Reading symbols from ./a.out...Reading symbols from /Users/mizunoyuta/git/hacking/0x200/a.out.dSYM/Contents/Resources/DWARF/a.out...done.
+done.
+(gdb) disass main
+Dump of assembler code for function main:
+   0x0000000100000f70 <+0>:	push   rbp
+   0x0000000100000f71 <+1>:	mov    rbp,rsp
+   0x0000000100000f74 <+4>:	mov    edi,0x1
+   0x0000000100000f79 <+9>:	mov    esi,0x2
+   0x0000000100000f7e <+14>:	mov    edx,0x3
+   0x0000000100000f83 <+19>:	mov    ecx,0x4
+   0x0000000100000f88 <+24>:	call   0x100000f20 <test_function>
+   0x0000000100000f8d <+29>:	xor    eax,eax
+   0x0000000100000f8f <+31>:	pop    rbp
+   0x0000000100000f90 <+32>:	ret
+End of assembler dump.
+(gdb) disass test_function()
+You can't do that without a process to debug.
+(gdb) list main
+4
+5	  flag = 31337;
+6	  buffer[0] = 'A';
+7	}
+8
+9	int main(){
+10	  test_function(1, 2, 3, 4);
+11	}
+(gdb) break 10
+Breakpoint 1 at 0x100000f88: file stack_example.c, line 10.
+(gdb) break test_function
+Breakpoint 2 at 0x100000f42: file stack_example.c, line 5.
+(gdb) run
+Starting program: /Users/aquan/git/hacking/0x200/a.out
+[New Thread 0x2503 of process 1740]
+warning: unhandled dyld version (15)
+
+Thread 2 hit Breakpoint 1, main () at stack_example.c:10
+10	  test_function(1, 2, 3, 4);
+(gdb) i r rbp rsp
+rbp            0x7ffeefbffa50	0x7ffeefbffa50
+rsp            0x7ffeefbffa50	0x7ffeefbffa50
+(gdb) i r rip
+rip            0x100000f88	0x100000f88 <main+24>
+(gdb) x/5i $rip
+=> 0x100000f88 <main+24>:	call   0x100000f20 <test_function>
+   0x100000f8d <main+29>:	xor    eax,eax
+   0x100000f8f <main+31>:	pop    rbp
+   0x100000f90 <main+32>:	ret
+   0x100000f91:	nop
+(gdb) cont
+Continuing.
+
+Thread 2 hit Breakpoint 2, test_function (a=1, b=2, c=3, d=4)
+    at stack_example.c:5
+5	  flag = 31337;
+(gdb) i r rsp rbp rip
+rsp            0x7ffeefbffa10	0x7ffeefbffa10
+rbp            0x7ffeefbffa40	0x7ffeefbffa40
+rip            0x100000f42	0x100000f42 <test_function+34>
+(gdb) disass test_function
+Dump of assembler code for function test_function:
+   0x0000000100000f20 <+0>:	push   rbp
+   0x0000000100000f21 <+1>:	mov    rbp,rsp
+   0x0000000100000f24 <+4>:	sub    rsp,0x30
+   0x0000000100000f28 <+8>:	mov    rax,QWORD PTR [rip+0xe1]        # 0x100001010
+   0x0000000100000f2f <+15>:	mov    rax,QWORD PTR [rax]
+   0x0000000100000f32 <+18>:	mov    QWORD PTR [rbp-0x8],rax
+   0x0000000100000f36 <+22>:	mov    DWORD PTR [rbp-0x18],edi
+   0x0000000100000f39 <+25>:	mov    DWORD PTR [rbp-0x1c],esi
+   0x0000000100000f3c <+28>:	mov    DWORD PTR [rbp-0x20],edx
+   0x0000000100000f3f <+31>:	mov    DWORD PTR [rbp-0x24],ecx
+=> 0x0000000100000f42 <+34>:	mov    DWORD PTR [rbp-0x28],0x7a69
+   0x0000000100000f49 <+41>:	mov    BYTE PTR [rbp-0x12],0x41
+   0x0000000100000f4d <+45>:	mov    rax,QWORD PTR [rip+0xbc]        # 0x100001010
+   0x0000000100000f54 <+52>:	mov    rax,QWORD PTR [rax]
+   0x0000000100000f57 <+55>:	mov    r8,QWORD PTR [rbp-0x8]
+   0x0000000100000f5b <+59>:	cmp    rax,r8
+   0x0000000100000f5e <+62>:	jne    0x100000f6a <test_function+74>
+   0x0000000100000f64 <+68>:	add    rsp,0x30
+   0x0000000100000f68 <+72>:	pop    rbp
+   0x0000000100000f69 <+73>:	ret
+---Type <return> to continue, or q <return> to quit---
+   0x0000000100000f6a <+74>:	call   0x100000f92
+End of assembler dump.
+(gdb) print $rbp-12
+$1 = (void *) 0x7ffeefbffa34
+(gdb) print $rbp-40
+$2 = (void *) 0x7ffeefbffa18
+(gdb) x/16xw $rsp
+0x7ffeefbffa10:	0x00003248	0x00000001	0x00000000	0x00000004
+0x7ffeefbffa20:	0x00000003	0x00000002	0x00000001	0x00000000
+0x7ffeefbffa30:	0x00000000	0x00000000	0xbb3c0011	0x08d94d57
+0x7ffeefbffa40:	0xefbffa50	0x00007ffe	0x00000f8d	0x00000001
