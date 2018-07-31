@@ -1,0 +1,21 @@
+0x200 $ gcc -o heap_example heap_example.c
+0x200 $ ./heap_example
+	[+]ヒープから50バイトを割り当て、先頭アドレスをchar_ptrに代入します
+char_ptr(0x7faa3c402740) --> 'KORE HA HEAP NI COPY SAREMASU'
+	[+]ヒープから12バイトを割り当て、先頭アドレスをint_ptrに代入します
+int_ptr (0x7faa3c402780) --> 31337
+	[-]char_ptrが指しているヒープメモリを解放します
+	[+]ヒープから再び15バイトを割り当て、先頭アドレスをchar_ptrにします
+char_ptr (0x7faa3c402790) --> 'NEW MEMORY'
+	[-]int_ptrのヒープメモリを解放します
+	[-]char_ptrのヒープメモリを解放します
+0x200 $ ./heap_example 100
+	[+]ヒープから100バイトを割り当て、先頭アドレスをchar_ptrに代入します
+char_ptr(0x7fdb87402740) --> 'KORE HA HEAP NI COPY SAREMASU'
+	[+]ヒープから12バイトを割り当て、先頭アドレスをint_ptrに代入します
+int_ptr (0x7fdb874027b0) --> 31337
+	[-]char_ptrが指しているヒープメモリを解放します
+	[+]ヒープから再び15バイトを割り当て、先頭アドレスをchar_ptrにします
+char_ptr (0x7fdb874027c0) --> 'NEW MEMORY'
+	[-]int_ptrのヒープメモリを解放します
+	[-]char_ptrのヒープメモリを解放します
