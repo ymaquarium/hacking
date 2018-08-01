@@ -1,0 +1,21 @@
+0x200 $ gcc -o simplenote simplenote.c
+0x200 $ ./simplenote
+使用方法：./simplenote </tmp/notesに使用するデータ>
+0x200 $ ./simplenote "this is a test note"
+[DEBUG] buffer @ 0x7fb28ec02740: 'this is a test note'
+[DEBUG] datafile @ 0x7fb28ec027b0: '/tmp/notes'
+[DEBUG] ファイル記述子:3
+メモが保存されました
+0x200 $ cat /tmp/notes
+this is a test note
+0x200 $ ls
+README.md	compiled	simplenote
+codes		result_txts	simplenote.c
+0x200 $ ./simplenote "great, it works"
+[DEBUG] buffer @ 0x7fdaedc02740: 'great, it works'
+[DEBUG] datafile @ 0x7fdaedc027b0: '/tmp/notes'
+[DEBUG] ファイル記述子:3
+メモが保存されました
+0x200 $ cat /tmp/notes
+this is a test note
+great, it works
