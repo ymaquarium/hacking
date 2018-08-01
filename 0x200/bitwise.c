@@ -15,3 +15,5 @@ int main(){
     printf("%d & %d = %d\n", bit_a, bit_b, bit_a & bit_b);
   }
 }
+
+//期待通りの結果が得られない。32bitと64bitの違いか？
