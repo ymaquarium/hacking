@@ -10,14 +10,14 @@ void usage(char *prog_name, char *filename){
 }
 
 void fatal(char*);
-void ec_malloc(unsigned int);
+void *ec_malloc(unsigned int);
 
 int main(int argc, char *argv[]){
   int fd;
   char *buffer, *datafile;
 
-  buffer = (char *)ec_malloc(100);
-  datafile = (char *)ec_malloc(20);
+  buffer = (char *) ec_malloc(100);
+  datafile = (char *) ec_malloc(20);
   strcpy(datafile, "/tmp/notes");
 
   if (argc < 2)
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
   strncat(buffer, "\n", 1);
 
   //open
-  fd = open(datafile, O_WEONLY|O_CREAT|O_APPEND, S_IRUSR|S_IWUSR);
+  fd = open(datafile, O_WRONLY|O_CREAT|O_APPEND, S_IRUSR|S_IWUSR);
   if (fd == -1)
     fatal("main()内、ファイルのオープン中にエラーが発生しました。");
   printf("[DEBUG] ファイル記述子:%d\n", fd);
