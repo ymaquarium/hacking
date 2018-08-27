@@ -127,7 +127,7 @@ link: https://www.ipa.go.jp/security/vuln/websecurity.html
 
 #### 概要
 
-- 利用者の入力フォームに<script>hoge</script>のようにスクリプトを埋め込むことで偽ページの表示やスクリプトの実行、Cookieの漏洩などが起こりうる
+- 利用者の入力フォームに<script></script>のようにスクリプトを埋め込むことで偽ページの表示やスクリプトの実行、Cookieの漏洩などが起こりうる
 
 #### 対策
 
