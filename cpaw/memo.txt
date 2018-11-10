@@ -1,0 +1,6 @@
+ftp://ip address
+You can use this protocol to get and send files
+use this in your brouser
+
+In Mac terminal, "ftp" command is not supported after High Sierra
+you should use "sftp" instead 
