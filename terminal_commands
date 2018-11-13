@@ -1,0 +1,11 @@
+For my study
+
+strace
+  - 結構たくさんある　
+  - システムコールの順序を調べるのが基本
+  - https://qiita.com/hana_shin/items/a03150552e2f70994248
+
+ltrace
+  - ライブラリ関数の詳細をトレースする
+
+
