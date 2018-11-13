@@ -19,4 +19,28 @@ print(data.replace("lovelive!", "")
 ```
 [Crypto]
 gcc crypto100.c
-./a.out ruoYced_ehpigniriks_i_llrg_stae 4
+./a.out ruoYced_ehpigniriks_i_llrg_stae 
+
+[network] can you login?
+
+wireshirk network100.pcap
+---look for ftp
+
+---ubuntu
+ftp 152.7.52.186
+login
+ftp> passive
+ftp> ls -a
+ftp> get .hidden_flag_file
+ftp> quit
+
+[Web] redirect
+
+use BurpSuite
+
+---firefox
+proxy settings: http- localhost:8080
+---burpsuite
+set intercept_mode
+
+enter url& check response headers on buipsuite

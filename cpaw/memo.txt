@@ -4,3 +4,5 @@ use this in your brouser
 
 In Mac terminal, "ftp" command is not supported after High Sierra
 you should use "sftp" instead 
+
+in CTF, you should use Ubuntu(Mac is in high-security, thus its hard to enjoy ctf)
