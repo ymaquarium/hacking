@@ -39,4 +39,4 @@ def common_world(c1, c2, e1, e2, n):
   return x
 
 
-print(common_world(c1, c2, s1, s2, n))
+print(common_world(c1, c2, e1, e2, n))
