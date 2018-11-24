@@ -150,8 +150,93 @@ jmp arg
 call arg
 
 //call元に戻る
+//保存しておいたリターンアドレスをeipレジスタにpopし命令ポインタをサブルーチン後の命令アドレスにする
 ret
 
 //callなどでスタックに退避されていた値を戻す
 leave
 ```
+
+### 逆アセンブル解析
+
+#### エントリーポイント
+
+- プログラムは大抵mainルーチンから処理される
+- バイナリレベルではmainルーチン前の初期化設定などが先に行われる
+    - レジスタやスタックの初期化処理
+    - main関数へ渡すコマンドライン引数の処理
+- 例えばLinuxならば以下のようになる
+
+```
+public start
+start       proc near
+            xor ebp, ebp
+            pop esi
+            mov ecx, esp
+            and esp 0FFFFFF0h
+            push eax
+            push esp    ; stack_end
+            push edx    ; rtld_fini
+            push offset fini    ;fini
+            push offset init    ;init
+            push ecx    ;ubp_av
+            push esi    ;argc
+            push offset main    ;main
+            call ___libc_start_main
+            hlt
+start       endp
+```
+
+#### 条件分岐
+
+##### Jcc命令
+
+- eipを参照していくような逐次実行以外でも命令を実行
+- cmp, test, subなどフラグレジスタに影響を与える命令を伴うことが多い
+
+```
+Jccの主な命令
+
+JE(jump if equal), JZ(jump if zero):    ZF=1で分岐
+JNE(jump if not equal), JNZ(jump if not zero):  ZF=0で分岐
+JG(jump if greater):    ZF=0 and SF=OF
+JL(jump if less):   SF<>OFの時分岐
+```
+
+#### API呼び出し
+
+##### 呼出規約
+
+- サブルーチンにおいて引数の渡し方や戻り値の返し方を定めたもの
+- 決められたレジスタやスタックに引数が渡され戻り値が返される
+- 色々な呼出規約があり、引数の渡し方はそれぞれ異なる
+
+##### 関数呼び出しとスタック
+
+- スタックに少しずつpush&popすることによって進む
+- サブルーチンに入ったらebpとespレジスタのアドレスを動かしてLocal用の領域を作る(関数のプロローグ)
+- 復帰したら退避しておいた元のebpレジスタに戻り、サブルーチン呼び出し前の状態にする
+- 終わったら命令ポインタをサブルーチン前のものにセット(関数のエピローグ)
+
+```
+Func1
+...
+push    arg2
+push    arg1
+call    Func2 ;subroutine発生
+mov retval, eax
+...
+
+Func2
+push    ebp ;ebpレジスタを復帰用に保存
+mov ebp, esp ;ebpレジスタをespレジスタの指す位置に移動(サブルーチン領域用)
+sub esp, 100h ;espレジスタをサブルーチン領域用に100hだけ移動(引き算), 現在のスタックポインタが下に100hうつる
+mov eax, [ebp+8]; ebpレジスタより高位にある(サブルーチン領域外)場所から変数を格納
+mov ebx, [ebp+Ch]
+...
+mov esp, ebp ;スタックポインタをサブルーチンの前に戻す
+pop ebp ;退避しておいた元のベースポインタへebpを復帰
+ret ;Func2の終了, 命令ポインタをサブルーチン直後のものにうつす
+```
+
+#### 静的リンクと動的リンク
